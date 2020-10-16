@@ -1,5 +1,5 @@
 import threading
-from darknet_yolov4 import detection
+import detection
 from tkinter import *
 from tank import *
 from food import Food

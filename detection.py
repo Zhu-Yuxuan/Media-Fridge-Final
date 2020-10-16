@@ -5,7 +5,7 @@ import random
 import time
 import cv2
 import numpy as np
-from bin import darknet
+import darknet
 from jetcam.csi_camera import CSICamera
 # import datetime
 detection0 = list()
