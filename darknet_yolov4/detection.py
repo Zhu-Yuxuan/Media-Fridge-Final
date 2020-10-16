@@ -8,6 +8,9 @@ import cv2
 import numpy as np
 import darknet
 from jetcam.csi_camera import CSICamera
+# import datetime
+detection0 = list()
+detection1 = list()
 
 def image_detection(image, network, class_names, class_colors, thresh):
     width = darknet.network_width(network)
@@ -24,29 +27,8 @@ def image_detection(image, network, class_names, class_colors, thresh):
     # image = darknet.draw_boxes(detections, image_resized, class_colors)
     return cv2.cvtColor(image, cv2.COLOR_BGR2RGB), detections, image_resized
 
-
-def drawing(frame_queue, detections_queue, fps_queue):
-    random.seed(3)  # deterministic bbox colors
-    video = set_saved_video(cap, args.out_filename, (width, height))
-    while True:
-        frame_resized = frame_queue.get()
-        detections = detections_queue.get()
-        fps = fps_queue.get()
-        if frame_resized is not None:
-            image = darknet.draw_boxes(detections, frame_resized, class_colors)
-            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            if args.out_filename is not None:
-                video.write(image)
-            if not args.dont_show:
-                cv2.imshow('Inference', image)
-            if cv2.waitKey(fps) == 27:
-                break
-    cap.release()
-    video.release()
-    cv2.destroyAllWindows()
-
-
 def detect():
+    global detection0, detection1
     config_file = "./yolo-coco/yolov4-tiny.cfg"
     data_file = "./data/coco.data"
     weights = "./yolo-coco/yolov4-tiny.weights"
@@ -70,7 +52,13 @@ def detect():
         image1, detections1, image_resized1 = image_detection(
             image1, network, class_names, class_colors, thresh
             )
-        
+        # curr_time = datetime.datetime.now()
+        detection0.clear()
+        detection1.clear()
+        for label, confidence, position in detections0:
+            detection0.append(label)
+        for label, confidence, position in detections1:
+            detection1.append(label)
         darknet.print_detections(detections0)
         fps = int(1/(time.time() - prev_time))
         print("FPS: {}".format(fps))
@@ -84,7 +72,7 @@ def detect():
                 break
 
 
-if __name__ == "__main__":
-    # unconmment next line for an example of batch processing
-    # batch_detection_example()
-    detect()
+# if __name__ == "__main__":
+#     # unconmment next line for an example of batch processing
+#     # batch_detection_example()
+#     detect()
