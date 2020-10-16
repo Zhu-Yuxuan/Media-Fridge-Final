@@ -1,11 +1,10 @@
 import threading
-from darknet_yolov4 import darknet
+from darknet_yolov4 import detection
 from tkinter import *
 from tank import *
 from food import Food
 import time
 import tkinter.font as tkFont
-from darknet_yolov4 import detection
 # import RPi.GPIO as GPIO
 
 # name = ["保鲜室1", "保鲜室2", "保鲜室3", "保鲜室4", "保鲜室5", "保鲜室6"]
