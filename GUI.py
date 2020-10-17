@@ -31,7 +31,7 @@ class GUI():
         self.root.geometry("1024x600")
         self.root.title("Frodge UI")
         self.framelist = []
-        self.content = [[], [], [], [], [], [], []]
+        self.content = [[], [], [], [], [], [], [], []]
         # init list
         for i in range(6):
             self.framelist.append(Frame())
