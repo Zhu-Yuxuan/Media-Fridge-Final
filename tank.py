@@ -6,6 +6,7 @@ Type = ["默认", "默认", "默认", "默认", "默认", "默认"]
 info = ["箱体清空，已恢复默认模式！", "箱体清空，已恢复默认模式！", "箱体清空，已恢复默认模式！", "箱体清空，已恢复默认模式！", "箱体清空，已恢复默认模式！", "箱体清空，已恢复默认模式！"]
 note = ["无通知。", "无通知。", "无通知。", "无通知。", "无通知。", "无通知。"]
 colo = ["white", "white", "white", "white", "white", "white"]
+tick = [-1,-1,-1,-1,-1,-1]
 fruit_list = ['fruit', 'apple', 'banana', 'orange', 'peach', 'pear', 'berry', 'pineapple', 'melon', 'radish', 'tomato', 'cucumber', 'pumpkin']
 vegetable_list = ['vegetable', 'carrot', 'broccoli', 'mushroom', 'spinach', 'celery', 'caraway', 'lettuce', 'agaric', 'lotus root', 'water shield', 'arrowhead', 'cress']
 meat_list = ['meat', 'beef', 'pork', 'fish', 'egg', 'mutton', 'chicken', 'duck']
@@ -59,29 +60,43 @@ class Tank:
             if len(group[4]) == 0:
                 note = "无通知。"
                 info = "箱体清空，已恢复默认模式！"
+                colo = "white"
+                tick = -1
             if len(group[4]) == 1:
                 note = "保鲜仓环境设置成功！"
                 self.containing_food_list = food_list
                 info = group[group[4][0]][0] + ": " + group[group[4][0]][1]
                 self.attribute = group[group[4][0]][0]
+                colo = "yellow"
+                tick = group[4][0]
         else:
             if len(group[4]) == 0:
                 note = "无通知。"
                 info = "箱体清空，已恢复默认模式！"
                 self.attribute = 'empty'
                 self.containing_food_list = list()
+                colo = "white"
+                tick = -1
             if len(group[4]) == 1:
                 note = "食材状态更新成功！"
                 self.containing_food_list = food_list
                 info = group[group[4][0]][0] + ": " + group[group[4][0]][1]
                 self.attribute = group[group[4][0]][0]
+                tick = group[4][0]
+                colo = "yellow"
         if len(group[4]) == 2:
+                colo = "red"
+                tick = group[4][0]
                 note = "不建议将{}{}和{}{}放入同一保鲜仓内，它们所需的最佳保鲜环境不同。".format(group[group[4][0]][0],group[group[4][0]][1],group[group[4][1]][0],group[group[4][1]][1])
         if len(group[4]) == 3:
+                colo = "red"
+                tick = group[4][0]
                 note = "不建议将{}{},{}{}以及{}{}放入同一保鲜仓内，它们所需的最佳保鲜环境不同。".format(group[group[4][0]][0],group[group[4][0]][1],group[group[4][1]][0],group[group[4][0]][1],group[group[4][2]][0],group[group[4][2]][1])
         if len(group[4]) == 4:
+                colo = "red"
+                tick = group[4][0]
                 note = "不建议将{}{},{}{},{}{}以及{}{}放入同一保鲜仓内，它们所需的最佳保鲜环境不同。".format(group[group[4][0]][0],group[group[4][0]][1],group[group[4][1]][0],group[group[4][0]][1],group[group[4][2]][0],group[group[4][2]][1],group[group[4][3]][0],group[group[4][3]][1])
-        return info, note
+        return info, note, colo, tick
 
 
     def add_food(self, new_foodlist):

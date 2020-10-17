@@ -90,8 +90,16 @@ def diff_n(listA, listB):
 
 def logic(fridge):
     while True:
-        info[0], note[0] = fridge[0].check(detection.detection0)
-        info[1], note[1] = fridge[1].check(detection.detection1)
+        info[0], note[0], colo[0], tick[0] = fridge[0].check(detection.detection0)
+        info[1], note[1], colo[1], tick[1] = fridge[1].check(detection.detection1)
+        for i in range(2):
+            if tick[i] == -1:
+                temp[i] = 0
+                mois[i] = 80
+                Type[i] = "默认"
+            temp[i] = temperature_reco[tick[i]]
+            mois[i] = moisture_reco[tick[i]]
+            Type[i] = Typename[tick[i]]
 
 
 # def logic1(fridge):
