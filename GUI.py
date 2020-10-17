@@ -57,7 +57,7 @@ class GUI():
             self.content[5][i][0] = Label(self.framelist[i], text="°C", bg=colo[i],font="Fixdsys 12") # unit
             self.content[5][i][1] = Label(self.framelist[i], text="%", bg=colo[i],font="Fixdsys 12")
             self.content[6][i] = Label(self.framelist[i], text=info[i], bg=colo[i],font="Fixdsys 12") # information: food
-            self.content[7][i] = Label(self.framelist[i], test=note[i], bg=colo[i],font="Fixdsys 12") # notification: warning, reminding
+            self.content[7][i] = Label(self.framelist[i], text=note[i], bg=colo[i],font="Fixdsys 12") # notification: warning, reminding
             self.content[0][i].grid(row=0, column=1, columnspan=3)
             self.content[1][i][0].grid(row=1, column=1)
             self.content[1][i][1].grid(row=2, column=1)
