@@ -97,9 +97,10 @@ def logic(fridge):
                 temp[i] = 0
                 mois[i] = 80
                 Type[i] = "默认"
-            temp[i] = temperature_reco[tick[i]]
-            mois[i] = moisture_reco[tick[i]]
-            Type[i] = Typename[tick[i]]
+            else:
+                temp[i] = temperature_reco[tick[i]]
+                mois[i] = moisture_reco[tick[i]]
+                Type[i] = Typename[tick[i]]
 
 
 # def logic1(fridge):
