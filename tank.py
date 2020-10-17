@@ -4,6 +4,7 @@ temp = [0, 0, 0, 0, 0, 0]
 mois = [80, 80, 80, 80, 80, 80]
 Type = ["默认", "默认", "默认", "默认", "默认", "默认"]
 info = ["箱体清空，已恢复默认模式！", "箱体清空，已恢复默认模式！", "箱体清空，已恢复默认模式！", "箱体清空，已恢复默认模式！", "箱体清空，已恢复默认模式！", "箱体清空，已恢复默认模式！"]
+note = ["无通知。", "无通知。", "无通知。", "无通知。", "无通知。", "无通知。"]
 colo = ["white", "white", "white", "white", "white", "white"]
 fruit_list = ['fruit', 'apple', 'banana', 'orange', 'peach', 'pear', 'berry', 'pineapple', 'melon', 'radish', 'tomato', 'cucumber', 'pumpkin']
 vegetable_list = ['vegetable', 'carrot', 'broccoli', 'mushroom', 'spinach', 'celery', 'caraway', 'lettuce', 'agaric', 'lotus root', 'water shield', 'arrowhead', 'cress']
@@ -32,12 +33,56 @@ def find_food(foodname):
         # str = input()
         # food_database[int(str)-1].append(foodname)
         return 0
-
+def classify(food_list):
+    group = [["水果或喜温蔬菜","",0],["喜凉蔬菜","",0],["禽畜肉与蛋","",0],["甜点或饮品","",0],[]]
+    food_list = list(set(food_list))
+    for food in food_list:
+        Food = find_food(food)
+        if Food != 0:
+            group[Food.num][1] = group[Food.num][1] + " " + Food.name
+            group[Food.name][2] += 1
+    for i in range(4):
+        if group[i][2] != 0:
+            group[4].append(i)
+    return group
 class Tank:
 
     def __init__(self):
         self.attribute = 'empty'
         self.containing_food_list = []
+
+    def check(self, food_list):
+        group = classify(food_list)
+        info = food_list
+        self.containing_food_list = food_list
+        if self.check_empty():
+            if len(group[4]) == 0:
+                note = "无通知。"
+                info = "箱体清空，已恢复默认模式！"
+            if len(group[4]) == 1:
+                note = "保鲜仓环境设置成功！"
+                self.containing_food_list = food_list
+                info = group[group[4][0]][0] + ": " + group[group[4][0]][1]
+                self.attribute = group[group[4][0]][0]
+        else:
+            if len(group[4]) == 0:
+                note = "无通知。"
+                info = "箱体清空，已恢复默认模式！"
+                self.attribute = 'empty'
+                self.containing_food_list = list()
+            if len(group[4]) == 1:
+                note = "食材状态更新成功！"
+                self.containing_food_list = food_list
+                info = group[group[4][0]][0] + ": " + group[group[4][0]][1]
+                self.attribute = group[group[4][0]][0]
+        if len(group[4]) == 2:
+                note = "不建议将{}{}和{}{}放入同一保鲜仓内，它们所需的最佳保鲜环境不同。".format(group[group[4][0]][0],group[group[4][0]][1],group[group[4][1]][0],group[group[4][1]][1])
+        if len(group[4]) == 3:
+                note = "不建议将{}{},{}{}以及{}{}放入同一保鲜仓内，它们所需的最佳保鲜环境不同。".format(group[group[4][0]][0],group[group[4][0]][1],group[group[4][1]][0],group[group[4][0]][1],group[group[4][2]][0],group[group[4][2]][1])
+        if len(group[4]) == 4:
+                note = "不建议将{}{},{}{},{}{}以及{}{}放入同一保鲜仓内，它们所需的最佳保鲜环境不同。".format(group[group[4][0]][0],group[group[4][0]][1],group[group[4][1]][0],group[group[4][0]][1],group[group[4][2]][0],group[group[4][2]][1],group[group[4][3]][0],group[group[4][3]][1])
+        return info, note
+
 
     def add_food(self, new_foodlist):
         info = ""

@@ -16,6 +16,7 @@ class GUI():
             self.content[3][i].config(text=temp[i], bg=colo[i])
             self.content[4][i].config(text=mois[i], bg=colo[i])
             self.content[6][i].config(text=info[i], bg=colo[i])
+            self.content[7][i].config(text=note[i], bg=colo[i])
             self.content[1][i][0].config(bg=colo[i])
             self.content[1][i][1].config(bg=colo[i])
             self.content[1][i][2].config(bg=colo[i])
@@ -54,7 +55,8 @@ class GUI():
             self.content[4][i] = Label(self.framelist[i], text=mois[i], bg=colo[i],font="Fixdsys 12") # moisture
             self.content[5][i][0] = Label(self.framelist[i], text="°C", bg=colo[i],font="Fixdsys 12") # unit
             self.content[5][i][1] = Label(self.framelist[i], text="%", bg=colo[i],font="Fixdsys 12")
-            self.content[6][i] = Label(self.framelist[i], text=info[i], bg=colo[i],font="Fixdsys 12") # information: warning, reminding
+            self.content[6][i] = Label(self.framelist[i], text=info[i], bg=colo[i],font="Fixdsys 12") # information: food
+            self.content[7][i] = Label(self.framelist[i], test=note[i], bg=colo[i],font="Fixdsys 12") # notification: warning, reminding
             self.content[0][i].grid(row=0, column=1, columnspan=3)
             self.content[1][i][0].grid(row=1, column=1)
             self.content[1][i][1].grid(row=2, column=1)
@@ -65,6 +67,7 @@ class GUI():
             self.content[5][i][0].grid(row=2 ,column=3)
             self.content[5][i][1].grid(row=3, column=3)
             self.content[6][i].grid(row=4, column=1, columnspan=3, pady = 15)
+            self.content[7][i].grid(row=5,column=1, columnspan=3, pady = 15)
             self.framelist[i].grid(row=i // 3, column=i % 3)
         self.root.after(1000, self.Update)
         self.root.mainloop()
@@ -84,30 +87,24 @@ def diff_n(listA, listB):
     listadd = list(set(listadd))
     return listadd
 
-def logic0(fridge):
-    foodlist0_curr = list()
-    foodlist0_prev = list()
-    foodlist0_curr = detection.detection0
+def logic(fridge):
     while True:
-        foodlist0_prev = foodlist0_curr
-        foodlist0_curr = detection.detection0
-        [info[0], colo[0]] = fridge.add_food(diff_n(foodlist0_curr, foodlist0_prev))
-        info[0] += fridge.remove_food(diff_n(foodlist0_prev, foodlist0_curr))
-        if info[0] != "":
-            time.sleep(2.5)
-        time.sleep(0.5)
+        info[0], note[0] = fridge[0].check(detection.detection0)
+        info[1], note[1] = fridge[1].check(detection.detection1)
 
-def logic1(fridge):
-    foodlist1_curr = list()
-    foodlist1_prev = list()
-    foodlist1_curr = detection.detection0
-    while True:
-        foodlist1_prev = foodlist1_curr
-        foodlist1_curr = detection.detection1
-        [info[1], colo[1]] = fridge.add_food(diff_n(foodlist1_curr, foodlist1_prev))
-        info[1] += fridge.remove_food(diff_n(foodlist1_prev, foodlist1_curr))
-        if info[1] != "":
-            time.sleep(2.5)
+
+# def logic1(fridge):
+#     foodlist1_curr = list()
+#     foodlist1_prev = list()
+#     foodlist1_curr = detection.detection0
+#     while True:
+#         foodlist1_prev = foodlist1_curr
+#         foodlist1_curr = detection.detection1
+#         info[1], colo[1] = fridge.add_food(diff_n(foodlist1_curr, foodlist1_prev))
+#         info[1] += fridge.remove_food(diff_n(foodlist1_prev, foodlist1_curr))
+#         print(info[1])
+#         if info[1] != "":
+#             time.sleep(2.5)
         time.sleep(0.5)
 
 
@@ -143,10 +140,10 @@ def terminal_simu(fridge):
 if __name__ == "__main__":
     fridge = [Tank(), Tank(), Tank(), Tank(), Tank(), Tank()]
     t1 = threading.Thread(target=fridgeUI)
-    t2 = threading.Thread(target=logic0, args=(fridge[0],))
-    t3 = threading.Thread(target=logic1, args=(fridge[1],))
+    t2 = threading.Thread(target=logic, args=(fridge,))
+    # t3 = threading.Thread(target=logic1, args=(fridge[1],))
     t4 = threading.Thread(target=detection.detect)
     t1.start()
     t2.start()
-    t3.start()
+    # t3.start()
     t4.start()
