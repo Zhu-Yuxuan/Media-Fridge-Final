@@ -5,30 +5,13 @@ from tank import *
 from food import Food
 import time
 import tkinter.font as tkFont
-# import RPi.GPIO as GPIO
-
-# name = ["保鲜室1", "保鲜室2", "保鲜室3", "保鲜室4", "保鲜室5", "保鲜室6"]
-# temp = [0, 0, 0, 0, 0, 0]
-# mois = [80, 80, 80, 80, 80, 80]
-# Type = ["默认", "默认", "默认", "默认", "默认", "默认"]
-# info = ["箱体清空，已恢复默认模式！", "箱体清空，已恢复默认模式！", "箱体清空，已恢复默认模式！", "箱体清空，已恢复默认模式！", "箱体清空，已恢复默认模式！", "箱体清空，已恢复默认模式！"]
-# colo = ["white", "white", "white", "white", "white", "white"]
-# fruit_list = ['fruit', 'apple', 'banana', 'orange', 'peach', 'pear', 'berry', 'pineapple', 'melon', 'radish', 'tomato', 'cucumber', 'pumpkin']
-# vegetable_list = ['vegetable', 'carrot', 'broccoli', 'mushroom', 'spinach', 'celery', 'caraway', 'lettuce', 'agaric', 'lotus root', 'water shield', 'arrowhead', 'cress']
-# meat_list = ['meat', 'beef', 'pork', 'fish', 'egg', 'mutton', 'chicken', 'duck']
-# drinking_list = ['drinking', 'milk', 'yogurt', 'coke', 'beer', 'vodka', 'donut', 'pizza', 'hot dog']
-# food_database = [fruit_list, vegetable_list, meat_list, drinking_list]
-# temperature_reco = [10, 3, 0, 5]
-# moisture_reco = [95, 95, 85, 90]
-# Typename = ["水果与喜温蔬菜", "喜凉蔬菜", "禽畜肉与蛋", "甜点，饮品"]
-
 
 class GUI():
     def __init__(self, root):
         self.initGUI(root)
     def Update(self):
         global temp, mois, Type
-        for i in range(6):
+        for i in range(2):
             self.content[2][i].config(text=Type[i], bg=colo[i])
             self.content[3][i].config(text=temp[i], bg=colo[i])
             self.content[4][i].config(text=mois[i], bg=colo[i])
@@ -98,6 +81,7 @@ def diff_n(listA, listB):
         diffa = numA - numB
         if diffa > 0:
             listadd.append([ele, diffa])
+    listadd = list(set(listadd))
     return listadd
 
 def logic0(fridge):
