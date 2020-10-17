@@ -42,6 +42,7 @@ class GUI():
             self.content[4].append(Label())  # moisture
             self.content[5].append([Label(), Label()])  # unit
             self.content[6].append(Label()) # information
+            self.content[7].append(Label()) # note
         # init frame
         for i in range(6):
             self.framelist[i] = Frame(self.root, height=300, width=341, bg=colo[i])
