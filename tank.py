@@ -40,7 +40,7 @@ def classify(food_list):
         Food = find_food(food)
         if Food != 0:
             group[Food.num][1] = group[Food.num][1] + " " + Food.name
-            group[Food.name][2] += 1
+            group[Food.num][2] += 1
     for i in range(4):
         if group[i][2] != 0:
             group[4].append(i)
